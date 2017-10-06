@@ -21,17 +21,11 @@ const getPositionRankings = ({
   return promise
 }
 
-const printAllPlayers = () => {
-  const getAllPositionRankings = Promise.all(
-    ['QB', 'RB', 'WR', 'TE'].map(position => getPositionRankings({ position }))
-  )
-  getAllPositionRankings.then(positionalRankingSet => {
-    positionalRankingSet.forEach(positionalRankings => {
-      positionalRankings.forEach(player => {
-        console.log(`"${player.firstName} ${player.lastName}","${player.firstName} ${player.lastName}"`)
-      })
-    })
-  })
-}
+const getAllPositionRankings = Promise.all(
+  ['QB', 'RB', 'WR', 'TE'].map(position => getPositionRankings({ position }))
+)
 
-printAllPlayers()
+module.exports = {
+  getPositionRankings,
+  getAllPositionRankings,
+}
