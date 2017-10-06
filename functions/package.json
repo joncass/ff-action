@@ -1,0 +1,10 @@
+{
+  "name": "ff-action",
+  "description": "Google Assistant Action for Fantasy Football advice and updates",
+  "dependencies": {
+    "actions-on-google": "^1.0.0",
+    "firebase-admin": "~5.4.0",
+    "firebase-functions": "^0.7.0"
+  },
+  "private": true
+}
