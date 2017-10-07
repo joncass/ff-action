@@ -18,3 +18,7 @@ const fetchData = () => {
 
   return promise
 }
+
+module.exports = {
+  fetchData,
+}
