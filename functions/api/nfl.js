@@ -63,7 +63,16 @@ const getPlayerProjection = ({
   return promise
 }
 
+const getPlayerProjections = ({
+  players,
+}) => {
+  return Promise.all(
+    players.map(playerName => getPlayerProjection({ playerName }))
+  )
+}
+
 module.exports = {
   getAllPlayerNames,
   getPlayerProjection,
+  getPlayerProjections,
 }

@@ -5,11 +5,7 @@ const decision = ({
   players,
 }) => {
   const promise = new Promise((resolve, reject) => {
-    const playerProjectionPromises = Promise.all(
-      players.map(playerName => nflAPI.getPlayerProjection({ playerName }))
-    )
-
-    playerProjectionPromises.then(projections => {
+    nflAPI.getPlayerProjections({ players }).then(projections => {
       const decisionResult = result.constructResult([
         {
           name: players[0],
