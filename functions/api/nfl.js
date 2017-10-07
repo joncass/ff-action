@@ -2,6 +2,8 @@ const fetch = require('./fetch')
 
 const DATA_STORE = {}
 
+const normalizeString = str => str.replace(/[^\w]/g, '').toLowerCase()
+
 const getAllPlayerNames = () => {
   const promise = new Promise((resolve, reject) => {
     fetch.fetchData().then(statPlayers => {
@@ -17,7 +19,7 @@ const getAllPlayerNames = () => {
 const _fillDataStore = () => {
   return fetch.fetchData().then(statPlayers => {
     statPlayers.forEach(player => {
-      DATA_STORE[player.name] = player.weekProjectedPts
+      DATA_STORE[normalizeString(player.name)] = player.weekProjectedPts
     })
   })
 }
@@ -26,13 +28,14 @@ const getPlayerProjection = ({
   playerName,
 }) => {
   const promise = new Promise((resolve, reject) => {
-    if (playerName in DATA_STORE) {
-      resolve(DATA_STORE[playerName])
+    const normPlayerName = normalizeString(playerName)
+    if (normPlayerName in DATA_STORE) {
+      resolve(DATA_STORE[normPlayerName])
     }
     else {
       _fillDataStore().then(() => {
-        if (playerName in DATA_STORE) {
-          resolve(DATA_STORE[playerName])
+        if (normPlayerName in DATA_STORE) {
+          resolve(DATA_STORE[normPlayerName])
         }
         else {
           reject(`Player ${playerName} not found`)
