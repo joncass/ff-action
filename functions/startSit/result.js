@@ -15,6 +15,11 @@ const constructResult = (playerProjections) => {
   const coefficient = playerProjections[0].projection / playerProjections[1].projection
   const worsePlayer = playerProjections[0].name
   const betterPlayer = playerProjections[1].name
+
+  if (coefficient === 1) {
+    return `I can't decide between ${betterPlayer} and ${worsePlayer}. Go with your gut.`
+  }
+
   return randomize.response({
     betterPlayer,
     worsePlayer,
