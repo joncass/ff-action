@@ -1,13 +1,5 @@
-const rankingsAPI = require('../api/rankings')
+const nflAPI = require('../api/nfl')
 
-const printAllPlayers = () => {
-  rankingsAPI.getAllPositionRankings.then(positionalRankingSet => {
-    positionalRankingSet.forEach(positionalRankings => {
-      positionalRankings.forEach(player => {
-        console.log(`"${player.firstName} ${player.lastName}","${player.firstName} ${player.lastName}"`)
-      })
-    })
-  })
-}
-
-printAllPlayers()
+nflAPI.getAllPlayerNames().then(names => {
+  names.forEach(name => console.log(`"${name}","${name}"`))
+})
