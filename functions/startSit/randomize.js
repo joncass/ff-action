@@ -1,4 +1,5 @@
-const _randomElement = arr => (arr[Math.floor(Math.random()*arr.length)])
+const randomizeResponse = require('./randomize/response')
+const randomizeSmallTalk = require('./randomize/smallTalk')
 
 const COEFFICIENTS = {
   BLOW_OUT: .5,
@@ -8,36 +9,11 @@ const COEFFICIENTS = {
 }
 
 const possibleResponses = {
-  [COEFFICIENTS.BLOW_OUT]: (bP, wP) => {
-    return _randomElement([
-      `That's an easy one. I have ${bP} way ahead of ${wP}.`,
-    ])
-  },
-  [COEFFICIENTS.RECOMMEND]: (bP, wP) => {
-    return _randomElement([
-      `I recommend ${bP} over ${wP}.`,
-    ])
-  },
-  [COEFFICIENTS.SUGGEST]: (bP, wP) => {
-    return _randomElement([
-      `I'd go with ${bP}, but ${wP} is close.`,
-    ])
-  },
-  [COEFFICIENTS.SLIGHT]: (bP, wP) => {
-    return _randomElement([
-      `${bP} has the slight edge, but ${wP} could be just as good.`,
-    ])
-  },
+  [COEFFICIENTS.BLOW_OUT]: randomizeResponse.blowOut,
+  [COEFFICIENTS.RECOMMEND]: randomizeResponse.recommend,
+  [COEFFICIENTS.SUGGEST]: randomizeResponse.suggest,
+  [COEFFICIENTS.SLIGHT]: randomizeResponse.slight,
 }
-
-const BENEDICTIONS = [
-  `Good luck!`,
-  `Best of luck!`,
-  `You'll do great!`,
-  `You're going to crush it.`,
-  `May the fantasy be ever in your favor.`,
-  `Hope you win!`,
-]
 
 const coefficientCeiling = (coefficient) => {
   let ceiling
@@ -64,9 +40,9 @@ const response = ({
   coefficient,
 }) => {
   const ceiling = coefficientCeiling(coefficient)
-  const randomResponse = possibleResponses[ceiling](betterPlayer, worsePlayer)
 
-  const benediction = _randomElement(BENEDICTIONS)
+  const randomResponse = possibleResponses[ceiling](betterPlayer, worsePlayer)
+  const benediction = randomizeSmallTalk.benediction()
 
   return `${randomResponse} ${benediction}`
 }
