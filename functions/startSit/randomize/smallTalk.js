@@ -1,6 +1,6 @@
-const randomize = require('./index')
+const randomizeUtil = require('./util')
 
-exports.benediction = () => randomize.element([
+exports.benediction = () => randomizeUtil.element([
   `Good luck!`,
   `Best of luck!`,
   `You'll do great!`,

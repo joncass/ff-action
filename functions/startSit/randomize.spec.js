@@ -3,6 +3,34 @@ const randomizeResponse = require('./randomize/response')
 const randomizeSmallTalk = require('./randomize/smallTalk')
 
 describe('randomize.response', () => {
+  it('should add a bendection at the end', () => {
+    const mockBenediction = jest.fn()
+    randomizeSmallTalk.benediction = mockBenediction
+    mockBenediction.mockReturnValue('Good luck!')
+
+    expect(mockBenediction).not.toHaveBeenCalled()
+    const resp = randomize.response({
+      betterPlayer: 'Foo',
+      worsePlayer: 'Bar',
+      coefficient: 1,
+    })
+    expect(mockBenediction).toHaveBeenCalledTimes(1)
+    expect(resp).toMatch(/Good luck!/)
+    jest.resetAllMocks()
+  })
+
+  it(`should include the players' names, no matter the coefficient`, () => {
+    [.2, .6, .85, .98].forEach(coefficient => {
+      const resp = randomize.response({
+        betterPlayer: 'Foo',
+        worsePlayer: 'Bar',
+        coefficient,
+      })
+      expect(resp).toMatch(/Foo/)
+      expect(resp).toMatch(/Bar/)
+    })
+  })
+
   it('should call blowOut if coefficient is less than .5', () => {
     const mockBlowOut = jest.fn()
     randomizeResponse.blowOut = mockBlowOut
@@ -61,20 +89,5 @@ describe('randomize.response', () => {
     })
     expect(mockSlight).toHaveBeenCalledWith('Foo', 'Bar')
     expect(resp).toMatch(/Slight!/)
-  })
-
-  it('should add a bendection at the end', () => {
-    const mockBenediction = jest.fn()
-    randomizeSmallTalk.benediction = mockBenediction
-    mockBenediction.mockReturnValue('Good luck!')
-
-    expect(mockBenediction).not.toHaveBeenCalled()
-    const resp = randomize.response({
-      betterPlayer: 'Foo',
-      worsePlayer: 'Bar',
-      coefficient: 1,
-    })
-    expect(mockBenediction).toHaveBeenCalledTimes(1)
-    expect(resp).toMatch(/Good luck!/)
   })
 })
