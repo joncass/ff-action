@@ -8,40 +8,27 @@ const COEFFICIENTS = {
   SLIGHT: 1,
 }
 
-const possibleResponses = {
-  [COEFFICIENTS.BLOW_OUT]: randomizeResponse.blowOut,
-  [COEFFICIENTS.RECOMMEND]: randomizeResponse.recommend,
-  [COEFFICIENTS.SUGGEST]: randomizeResponse.suggest,
-  [COEFFICIENTS.SLIGHT]: randomizeResponse.slight,
-}
-
-const coefficientCeiling = (coefficient) => {
-  let ceiling
-
-  if (coefficient <= COEFFICIENTS.BLOW_OUT) {
-    ceiling = COEFFICIENTS.BLOW_OUT
-  }
-  else if (coefficient <= COEFFICIENTS.RECOMMEND) {
-    ceiling = COEFFICIENTS.RECOMMEND
-  }
-  else if (coefficient <= COEFFICIENTS.SUGGEST) {
-    ceiling = COEFFICIENTS.SUGGEST
-  }
-  else {
-    ceiling = COEFFICIENTS.SLIGHT
-  }
-
-  return ceiling
-}
-
 const response = ({
   betterPlayer,
   worsePlayer,
   coefficient,
 }) => {
-  const ceiling = coefficientCeiling(coefficient)
+  let randomResponseFn
 
-  const randomResponse = possibleResponses[ceiling](betterPlayer, worsePlayer)
+  if (coefficient <= COEFFICIENTS.BLOW_OUT) {
+    randomResponseFn = randomizeResponse.blowOut
+  }
+  else if (coefficient <= COEFFICIENTS.RECOMMEND) {
+    randomResponseFn = randomizeResponse.recommend
+  }
+  else if (coefficient <= COEFFICIENTS.SUGGEST) {
+    randomResponseFn = randomizeResponse.suggest
+  }
+  else {
+    randomResponseFn = randomizeResponse.slight
+  }
+
+  const randomResponse = randomResponseFn(betterPlayer, worsePlayer)
   const benediction = randomizeSmallTalk.benediction()
 
   return `${randomResponse} ${benediction}`
